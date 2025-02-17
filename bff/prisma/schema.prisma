@@ -1,0 +1,24 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Worker {
+  id        String      @id @default(uuid())
+  name      String
+  createdAt DateTime    @default(now())
+  attendance Attendance[]
+}
+
+model Attendance {
+  id          String   @id @default(uuid())
+  worker      Worker   @relation(fields: [workerId], references: [id])
+  workerId    String
+  geolocation String
+  timestamp   DateTime @default(now())
+  photoUrl    String
+}
